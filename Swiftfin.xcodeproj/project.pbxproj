@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		091B5A8A2683142E00D78B61 /* ServerDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091B5A872683142E00D78B61 /* ServerDiscovery.swift */; };
 		091B5A8D268315D400D78B61 /* ServerDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091B5A872683142E00D78B61 /* ServerDiscovery.swift */; };
+		22657B322D9C02200008E1BC /* AirPlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22657B312D9C021A0008E1BC /* AirPlayButton.swift */; };
 		4E01446C2D0292E200193038 /* Trie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E01446B2D0292E000193038 /* Trie.swift */; };
 		4E01446D2D0292E200193038 /* Trie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E01446B2D0292E000193038 /* Trie.swift */; };
 		4E0195E42CE0467B007844F4 /* ItemSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0195E32CE04678007844F4 /* ItemSection.swift */; };
@@ -1274,6 +1275,7 @@
 
 /* Begin PBXFileReference section */
 		091B5A872683142E00D78B61 /* ServerDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDiscovery.swift; sourceTree = "<group>"; };
+		22657B312D9C021A0008E1BC /* AirPlayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirPlayButton.swift; sourceTree = "<group>"; };
 		4E01446B2D0292E000193038 /* Trie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trie.swift; sourceTree = "<group>"; };
 		4E0195E32CE04678007844F4 /* ItemSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSection.swift; sourceTree = "<group>"; };
 		4E026A8A2CE804E7005471B5 /* ResetUserPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetUserPasswordView.swift; sourceTree = "<group>"; };
@@ -3605,6 +3607,7 @@
 		53F866422687A45400DCD1D7 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				22657B312D9C021A0008E1BC /* AirPlayButton.swift */,
 				E1D8429429346C6400D1041A /* BasicStepper.swift */,
 				E133328C2953AE4B00EE76AB /* CircularProgressView.swift */,
 				4E661A242CEFE64200025C99 /* CountryPicker.swift */,
@@ -6446,6 +6449,7 @@
 				4E10C8172CC0455A0012CC9F /* CompatibilitiesSection.swift in Sources */,
 				4EE7670A2D135CBA009658F0 /* RemoteSearchResultView.swift in Sources */,
 				E1FA891B289A302300176FEB /* iPadOSCollectionItemView.swift in Sources */,
+				22657B322D9C02200008E1BC /* AirPlayButton.swift in Sources */,
 				E14E9DF12BCF7A99004E3371 /* ItemLetter.swift in Sources */,
 				E1B5861229E32EEF00E45D6E /* Sequence.swift in Sources */,
 				E11895B32893844A0042947B /* BackgroundParallaxHeaderModifier.swift in Sources */,

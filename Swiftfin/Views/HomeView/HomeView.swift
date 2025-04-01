@@ -87,6 +87,9 @@ struct HomeView: View {
                 ProgressView()
             }
 
+            AirPlayButton()
+                .frame(width: 30, height: 30)
+
             SettingsBarButton(
                 server: viewModel.userSession.server,
                 user: viewModel.userSession.user
