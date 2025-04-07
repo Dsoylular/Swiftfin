@@ -15,7 +15,7 @@ import SwiftUI
 //       - similar to MediaView TODO bug?
 //       - indicated by snapping to the top
 struct HomeView: View {
-
+    //dd
     @Default(.Customization.nextUpPosterType)
     private var nextUpPosterType
     @Default(.Customization.Home.showRecentlyAdded)
