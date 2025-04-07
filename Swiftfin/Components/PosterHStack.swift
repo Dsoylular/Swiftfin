@@ -148,6 +148,7 @@ extension PosterHStack {
                     .font(.title2)
                     .fontWeight(.semibold)
                     .accessibility(addTraits: [.isHeader])
+                    .foregroundColor(Color(red: 223 / 255, green: 255 / 255, blue: 96 / 255))
             }
         }
     }

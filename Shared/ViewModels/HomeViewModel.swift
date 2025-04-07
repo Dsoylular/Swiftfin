@@ -40,7 +40,14 @@ final class HomeViewModel: ViewModel, Stateful {
     }
 
     @Published
-    private(set) var libraries: [LatestInLibraryViewModel] = []
+    private(set) var librariesLatest: [LatestInLibraryViewModel] = []
+
+    @Published
+    private(set) var librariesTrending: [TrendingViewModel] = []
+
+    @Published
+    private(set) var librariesFeaturing: [FeaturingViewModel] = []
+
     @Published
     var resumeItems: OrderedSet<BaseItemDto> = []
 
@@ -59,6 +66,7 @@ final class HomeViewModel: ViewModel, Stateful {
 
     var nextUpViewModel: NextUpLibraryViewModel = .init()
     var recentlyAddedViewModel: RecentlyAddedLibraryViewModel = .init()
+    var featuringViewModel: FeaturingViewModel = .init()
 
     override init() {
         super.init()
@@ -160,15 +168,24 @@ final class HomeViewModel: ViewModel, Stateful {
         await recentlyAddedViewModel.send(.refresh)
 
         let resumeItems = try await getResumeItems()
-        let libraries = try await getLibraries()
+        let librariesLatest = try await getLibrariesLatest()
+        let librariesTrending = try await getLibrariesTrending()
+        let librariesFeaturing = try await getLibrariesFeaturing()
 
-        for library in libraries {
+        for library in librariesLatest {
             await library.send(.refresh)
         }
-
+        for library in librariesTrending {
+            await library.send(.refresh)
+        }
+        for library in librariesFeaturing {
+            await library.send(.refresh)
+        }
         await MainActor.run {
             self.resumeItems.elements = resumeItems
-            self.libraries = libraries
+            self.librariesLatest = librariesLatest
+            self.librariesTrending = librariesTrending
+            self.librariesFeaturing = librariesFeaturing
         }
     }
 
@@ -185,7 +202,7 @@ final class HomeViewModel: ViewModel, Stateful {
         return response.value.items ?? []
     }
 
-    private func getLibraries() async throws -> [LatestInLibraryViewModel] {
+    private func getLibrariesLatest() async throws -> [LatestInLibraryViewModel] {
 
         let userViewsPath = Paths.getUserViews(userID: userSession.user.id)
         async let userViews = userSession.client.send(userViewsPath)
@@ -196,6 +213,50 @@ final class HomeViewModel: ViewModel, Stateful {
             .intersection(["movies", "tvshows"], using: \.collectionType)
             .subtracting(excludedLibraryIDs, using: \.id)
             .map { LatestInLibraryViewModel(parent: $0) }
+    }
+
+    private func getLibrariesTrending() async throws -> [TrendingViewModel] {
+
+        let userViewsPath = Paths.getUserViews(userID: userSession.user.id)
+        async let userViews = userSession.client.send(userViewsPath)
+
+        async let excludedLibraryIDs = getExcludedLibraries()
+
+        return try await (userViews.value.items ?? [])
+            .intersection(["movies", "tvshows"], using: \.collectionType)
+            .subtracting(excludedLibraryIDs, using: \.id)
+            .map { TrendingViewModel(parent: $0) }
+    }
+
+    private func getLibrariesFeaturing() async throws -> [FeaturingViewModel] {
+        let userViewsPath = Paths.getUserViews(userID: userSession.user.id)
+        async let userViews = userSession.client.send(userViewsPath)
+        async let excludedLibraryIDs = getExcludedLibraries()
+
+        let libraries = try await (userViews.value.items ?? [])
+            .intersection(["movies", "tvshows"], using: \.collectionType)
+            .subtracting(excludedLibraryIDs, using: \.id)
+
+        var viewModels: [FeaturingViewModel] = []
+
+        for library in libraries {
+            let viewModel = FeaturingViewModel(parent: library)
+
+            // Fetch first page of items
+            let items = try await viewModel.get(page: 0)
+
+            // Keep only items named "joker" or "sonsuz"
+            let filteredItems = items.filter { item in
+                guard let name = item.name?.lowercased() else { return false }
+                return name == "joker" || name == "sonsuz"
+            }
+
+            // Overwrite the view model's items with the filtered ones
+
+            viewModels.append(viewModel)
+        }
+
+        return viewModels
     }
 
     // TODO: use the more updated server/user data when implemented

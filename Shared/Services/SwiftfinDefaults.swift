@@ -118,9 +118,11 @@ extension Defaults.Keys {
         static let nextUpPosterType: Key<PosterDisplayType> = UserKey("nextUpPosterType", default: .portrait)
         static let recentlyAddedPosterType: Key<PosterDisplayType> = UserKey("recentlyAddedPosterType", default: .portrait)
         static let latestInLibraryPosterType: Key<PosterDisplayType> = UserKey("latestInLibraryPosterType", default: .portrait)
+        static let trendingPosterType: Key<PosterDisplayType> = UserKey("trendingPosterType", default: .portrait)
         static let shouldShowMissingSeasons: Key<Bool> = UserKey("shouldShowMissingSeasons", default: true)
         static let shouldShowMissingEpisodes: Key<Bool> = UserKey("shouldShowMissingEpisodes", default: true)
         static let similarPosterType: Key<PosterDisplayType> = UserKey("similarPosterType", default: .portrait)
+        static let favoritePosterType: Key<PosterDisplayType> = UserKey("favoritePosterType", default: .portrait)
 
         // TODO: have search poster type by types of items if applicable
         static let searchPosterType: Key<PosterDisplayType> = UserKey("searchPosterType", default: .portrait)

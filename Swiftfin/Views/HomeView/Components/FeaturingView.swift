@@ -13,7 +13,7 @@ import SwiftUI
 
 extension HomeView {
 
-    struct ContinueWatchingView: View {
+    struct FeaturingView: View {
 
         let rastroGreen = Color(red: 223 / 255, green: 255 / 255, blue: 96 / 255)
 
@@ -21,11 +21,8 @@ extension HomeView {
         private var router: HomeCoordinator.Router
 
         @ObservedObject
-        var viewModel: HomeViewModel
+        var viewModel: FeaturingViewModel
 
-        // TODO: see how this looks across multiple screen sizes
-        //       alongside PosterHStack + landscape
-        // TODO: need better handling for iPadOS + portrait orientation
         private var columnCount: CGFloat {
             if UIDevice.isPhone {
                 1.5
@@ -35,14 +32,14 @@ extension HomeView {
         }
 
         var body: some View {
-            if !viewModel.resumeItems.isEmpty {
+            if !viewModel.elements.isEmpty {
                 PosterHStack(
-                    title: "Continue Watching", // Title here, replace with the localized string
-                    type: .landscape, // Assuming you want a similar poster type as in RecentlyAddedView
-                    items: viewModel.resumeItems
+                    title: "Featured",
+                    type: .landscape,
+                    items: viewModel.elements
                 )
                 .trailing {
-                    SeeAllButton() // Add functionality for "See All" button if needed
+                    SeeAllButton()
                         .onSelect {
                             // Handle navigation to another view if needed
                         }
