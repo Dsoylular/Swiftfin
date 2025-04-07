@@ -11,8 +11,9 @@ import Factory
 import Foundation
 import SwiftUI
 
-import SwiftUI
-
+// TODO: seems to redraw view when popped to sometimes?
+//       - similar to MediaView TODO bug?
+//       - indicated by snapping to the top
 struct HomeView: View {
 
     @Default(.Customization.nextUpPosterType)
@@ -22,8 +23,6 @@ struct HomeView: View {
     @Default(.Customization.recentlyAddedPosterType)
     private var recentlyAddedPosterType
 
-    let rastroGreen = Color(red: 223 / 255, green: 255 / 255, blue: 96 / 255)
-
     @EnvironmentObject
     private var mainRouter: MainCoordinator.Router
     @EnvironmentObject
@@ -32,16 +31,10 @@ struct HomeView: View {
     @StateObject
     private var viewModel = HomeViewModel()
 
-    @State
-    private var isSearchActive: Bool = false
-
+    @ViewBuilder
     private var contentView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
-
-                ForEach(viewModel.librariesFeaturing) { viewModel in
-                    FeaturingView(viewModel: viewModel)
-                }
 
                 ContinueWatchingView(viewModel: viewModel)
 
@@ -54,12 +47,8 @@ struct HomeView: View {
                     RecentlyAddedView(viewModel: viewModel.recentlyAddedViewModel)
                 }
 
-                // ForEach(viewModel.librariesLatest) { viewModel in
-                //  LatestInLibraryView(viewModel: viewModel)
-                // }
-
-                ForEach(viewModel.librariesTrending) { viewModel in
-                    TrendingView(viewModel: viewModel)
+                ForEach(viewModel.libraries) { viewModel in
+                    LatestInLibraryView(viewModel: viewModel)
                 }
             }
             .edgePadding(.vertical)
@@ -78,59 +67,35 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            VStack(spacing: 0) {
-                // Custom Top Bar
-                HStack(spacing: 15) {
-                    Image("Rastro-logo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 80, height: 80)
-
-                    Text("RASTRO")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .foregroundColor(rastroGreen)
-                    Spacer()
-
-                    if viewModel.backgroundStates.contains(.refresh) {
-                        ProgressView()
-                    }
-
-                    ConnectButton()
-                    SearchButton(isSearchActive: $isSearchActive)
-                    SettingsBarButton(
-                        server: viewModel.userSession.server,
-                        user: viewModel.userSession.user
-                    ) {
-                        mainRouter.route(to: \.settings)
-                    }
-                }
-                .padding(.horizontal)
-                .frame(height: 80)
-                .background(Color(.systemBackground))
-                .shadow(radius: 1)
-
-                Divider()
-
-                switch viewModel.state {
-                case .content:
-                    contentView
-                case let .error(error):
-                    errorView(with: error)
-                case .initial, .refreshing:
-                    DelayedProgressView()
-                }
-
-                NavigationLink(
-                    destination: SearchView(),
-                    isActive: $isSearchActive
-                ) {
-                    EmptyView()
-                }
+            switch viewModel.state {
+            case .content:
+                contentView
+            case let .error(error):
+                errorView(with: error)
+            case .initial, .refreshing:
+                DelayedProgressView()
             }
         }
+        .animation(.linear(duration: 0.1), value: viewModel.state)
         .onFirstAppear {
             viewModel.send(.refresh)
+        }
+        .navigationTitle(L10n.home)
+        .topBarTrailing {
+
+            if viewModel.backgroundStates.contains(.refresh) {
+                ProgressView()
+            }
+
+            AirPlayButton()
+                .frame(width: 30, height: 30)
+
+            SettingsBarButton(
+                server: viewModel.userSession.server,
+                user: viewModel.userSession.user
+            ) {
+                mainRouter.route(to: \.settings)
+            }
         }
         .sinceLastDisappear { interval in
             if interval > 60 || viewModel.notificationsReceived.contains(.itemMetadataDidChange) {
