@@ -122,7 +122,7 @@ extension Defaults.Keys {
         static let shouldShowMissingSeasons: Key<Bool> = UserKey("shouldShowMissingSeasons", default: true)
         static let shouldShowMissingEpisodes: Key<Bool> = UserKey("shouldShowMissingEpisodes", default: true)
         static let similarPosterType: Key<PosterDisplayType> = UserKey("similarPosterType", default: .portrait)
-        static let favoritePosterType: Key<PosterDisplayType> = UserKey("favoritePosterType", default: .portrait)
+        static let favouritesPosterType: Key<PosterDisplayType> = UserKey("favoritePosterType", default: .portrait)
 
         // TODO: have search poster type by types of items if applicable
         static let searchPosterType: Key<PosterDisplayType> = UserKey("searchPosterType", default: .portrait)

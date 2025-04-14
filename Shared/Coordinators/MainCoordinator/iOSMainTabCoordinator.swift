@@ -14,20 +14,20 @@ final class MainTabCoordinator: TabCoordinatable {
 
     var child = TabChild(startingItems: [
         \MainTabCoordinator.home,
-//        \MainTabCoordinator.search,
+        \MainTabCoordinator.search,
         \MainTabCoordinator.media,
-//        \MainTabCoordinator.favorites,
+        \MainTabCoordinator.favorites,
 //        \MainTabCoordinator.profile,
     ])
 
     @Route(tabItem: makeHomeTab, onTapped: onHomeTapped)
     var home = makeHome
-//    @Route(tabItem: makeSearchTab, onTapped: onSearchTapped)
-//    var search = makeSearch
+    @Route(tabItem: makeSearchTab, onTapped: onSearchTapped)
+    var search = makeSearch
     @Route(tabItem: makeMediaTab, onTapped: onMediaTapped)
     var media = makeMedia
-//    @Route(tabItem: makeFavoritesTab, onTapped: onFavoritesTapped)
-//    var favorites = makeFavorites
+    @Route(tabItem: makeFavouritesTab, onTapped: onFavouritesTapped)
+    var favorites = makeFavourite
 //    @Route(tabItem: makeProfileTab, onTapped: onProfileTapped)
 //    var profile = makeProfile
 
@@ -51,17 +51,33 @@ final class MainTabCoordinator: TabCoordinatable {
         NavigationViewCoordinator(SearchCoordinator())
     }
 
+    func makeFavourite() -> NavigationViewCoordinator<FavouritesCoordinator> {
+        NavigationViewCoordinator(FavouritesCoordinator())
+    }
+
     func onSearchTapped(isRepeat: Bool, coordinator: NavigationViewCoordinator<SearchCoordinator>) {
         if isRepeat {
             coordinator.child.popToRoot()
         }
     }
 
-//    @ViewBuilder
-//    func makeSearchTab(isActive: Bool) -> some View {
-//        Image(systemName: "magnifyingglass")
-//        L10n.search.text
-//    }
+    @ViewBuilder
+    func makeSearchTab(isActive: Bool) -> some View {
+        Image(systemName: "magnifyingglass")
+        L10n.search.text
+    }
+
+    @ViewBuilder
+    func makeFavouritesTab(isActive: Bool) -> some View {
+        Image(systemName: "star")
+        Text("Favourites")
+    }
+
+    func onFavouritesTapped(isRepeat: Bool, coordinator: NavigationViewCoordinator<FavouritesCoordinator>) {
+        if isRepeat {
+            coordinator.child.popToRoot()
+        }
+    }
 
     func makeMedia() -> NavigationViewCoordinator<MediaCoordinator> {
         NavigationViewCoordinator(MediaCoordinator())

@@ -24,7 +24,7 @@ struct WatchedIndicator: View {
                 .resizable()
                 .frame(width: size, height: size)
                 .symbolRenderingMode(.palette)
-                .foregroundStyle(.white, accentColor)
+                .foregroundStyle(.black, accentColor)
                 .padding(3)
         }
     }
