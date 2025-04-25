@@ -14,22 +14,22 @@ final class MainTabCoordinator: TabCoordinatable {
 
     var child = TabChild(startingItems: [
         \MainTabCoordinator.home,
-        \MainTabCoordinator.search,
+//        \MainTabCoordinator.search,
         \MainTabCoordinator.media,
         \MainTabCoordinator.favorites,
-//        \MainTabCoordinator.profile,
+        \MainTabCoordinator.profile,
     ])
 
     @Route(tabItem: makeHomeTab, onTapped: onHomeTapped)
     var home = makeHome
-    @Route(tabItem: makeSearchTab, onTapped: onSearchTapped)
-    var search = makeSearch
+//    @Route(tabItem: makeSearchTab, onTapped: onSearchTapped)
+//    var search = makeSearch
     @Route(tabItem: makeMediaTab, onTapped: onMediaTapped)
     var media = makeMedia
     @Route(tabItem: makeFavouritesTab, onTapped: onFavouritesTapped)
     var favorites = makeFavourite
-//    @Route(tabItem: makeProfileTab, onTapped: onProfileTapped)
-//    var profile = makeProfile
+    @Route(tabItem: makeProfileTab, onTapped: onProfileTapped)
+    var profile = makeProfile
 
     func makeHome() -> NavigationViewCoordinator<HomeCoordinator> {
         NavigationViewCoordinator(HomeCoordinator())
@@ -95,37 +95,21 @@ final class MainTabCoordinator: TabCoordinatable {
         L10n.media.text
     }
 
-//    func makeFavorites() -> NavigationViewCoordinator<FavouritesCoordinator> {
-//        NavigationViewCoordinator(FavouritesCoordinator())
-//    }
-//
-//    func onFavoritesTapped(isRepeat: Bool, coordinator: NavigationViewCoordinator<FavouritesCoordinator>) {
-//        if isRepeat {
-//            coordinator.child.popToRoot()
-//        }
-//    }
-//
-//    @ViewBuilder
-//    func makeFavoritesTab(isActive: Bool) -> some View {
-//        Image(systemName: "heart.fill")
-//        L10n.favorites.text
-//    }
+    func makeProfile() -> NavigationViewCoordinator<ProfileCoordinator> {
+        NavigationViewCoordinator(ProfileCoordinator())
+    }
 
-//    func makeProfile() -> NavigationViewCoordinator<ProfileCoordinator> {
-//        NavigationViewCoordinator(ProfileCoordinator())
-//    }
-//
-//    func onProfileTapped(isRepeat: Bool, coordinator: NavigationViewCoordinator<ProfileCoordinator>) {
-//        if isRepeat {
-//            coordinator.child.popToRoot()
-//        }
-//    }
-//
-//    @ViewBuilder
-//    func makeProfileTab(isActive: Bool) -> some View {
-//        Image(systemName: "person.fill")
-//        L10n.profile.text
-//    }
+    func onProfileTapped(isRepeat: Bool, coordinator: NavigationViewCoordinator<ProfileCoordinator>) {
+        if isRepeat {
+            coordinator.child.popToRoot()
+        }
+    }
+
+    @ViewBuilder
+    func makeProfileTab(isActive: Bool) -> some View {
+        Image(systemName: "person.fill")
+        L10n.profile.text
+    }
 
     @ViewBuilder
     func customize(_ view: AnyView) -> some View {
